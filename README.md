@@ -87,6 +87,7 @@ sportTracker.end();
 clearWatch
 
 #####Общие замечания.
+    - Corvova
     - Bower.
     - Используем UMD (Universal Module Definition)
 
