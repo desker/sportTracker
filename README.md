@@ -84,6 +84,8 @@ sportTracker.end();
 Последний раз вызываются oOptions.onDistance и oOptions.onDistanceTrack
 clearWatch
 
-
+#####Общие замечания.
+    - Bower.
+    - Используем UMD (Universal Module Definition)
 
 
