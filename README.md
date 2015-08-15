@@ -54,6 +54,8 @@ sportTracker.end();
 
 Если geolocation не доступна, то возвращается причина ввиде текста, иначе возвращается true.
 
+http://docs.phonegap.com/en/edge/cordova_geolocation_geolocation.md.html#PositionError
+
 ###start(oOptions) - Запускаем слежение.
 
 Алгоритм:
