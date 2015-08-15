@@ -10,7 +10,14 @@
 
 if( sportTracker.canTrack() === true){
 
-  sportTracker.start({});
+  sportTracker.start({
+    distance: 500, //в метрах
+    onDistance: function( /*описание параметров см. ниже*/){
+        
+        //обрабатываем данные, например пишем в БД
+        
+    } 
+  });
   sportTracker.end();
   
 }else{
@@ -30,9 +37,10 @@ if( sportTracker.canTrack() === true){
 Алгоритм:
 1. Запускается функция watchPosition, каждые oOptions.watch секунд
 2. Каждые oOptions.distance = 500 м вызывается функция  oOptions.onDistance, которой передается вся информация за эту дистанцию
-     - Время начала, 
-     - Время окончания,
-     - Дистанция
+     - Время начала (date), 
+     - Время окончания (date),
+     - Время - в секундач (окончание - начало)
+     - Дистанция (в метрах)
      - Скорость (ср.) км/ч
      - Высота минимальная (метры)
      - Высота максимальная (метры)
@@ -40,6 +48,8 @@ if( sportTracker.canTrack() === true){
      - Итоговый спуск (метры)
     
     Данная информация будет использоваться для статистики.
+
+Функция oOptions.onDistance, также будет вызвана при sportTracker.end();
   
 3. Каждые oOptions.distanceTrack = 30 м вызывается функция  oOptions.onDistanceTrack, которой передается следующая информация
      - Широта
