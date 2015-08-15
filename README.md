@@ -59,6 +59,7 @@ http://docs.phonegap.com/en/edge/cordova_geolocation_geolocation.md.html#Positio
 ###start(oOptions) - Запускаем слежение.
 
 Алгоритм:
+
 1. Запускается функция watchPosition, каждые oOptions.watch секунд
 2. Каждые oOptions.distance = 500 м вызывается функция  oOptions.onDistance, которой передается вся информация за эту дистанцию
      - Время начала (date), 
