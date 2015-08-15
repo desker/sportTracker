@@ -17,6 +17,7 @@
 if( sportTracker.canTrack() === true){
 
   sportTracker.start({
+    watch: 10, //в секундах
     distance: 500, //в метрах
     onDistance: function( /*описание параметров см. ниже*/){
         
@@ -76,9 +77,10 @@ http://docs.phonegap.com/en/edge/cordova_geolocation_geolocation.md.html#Positio
 
 Функция oOptions.onDistance, также будет вызвана при sportTracker.end();
   
-3. Каждые oOptions.distanceTrack = 30 м вызывается функция  oOptions.onDistanceTrack, которой передается следующая информация
+3 . Каждые oOptions.distanceTrack = 30 м вызывается функция  oOptions.onDistanceTrack, которой передается следующая информация
      - Широта
      - Долгота
+     
     Данная информация будет использоваться для рисования трека на карте.
 
 Функция oOptions.onDistanceTrack, также будет вызвана при sportTracker.end();
