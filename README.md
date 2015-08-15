@@ -8,22 +8,42 @@
 
 ``` javascript
 
+/*
+Пользователь нажал на кнопку СТАРТ
+*/
+
 if( sportTracker.canTrack() === true){
 
   sportTracker.start({
     distance: 500, //в метрах
     onDistance: function( /*описание параметров см. ниже*/){
         
-        //обрабатываем данные, например пишем в БД
+        //обрабатываем данные, например пишем в БД и выводим результат в UI
         
-    } 
+    },
+    distanceTrack: 30, //в метрах
+    onDistanceTrack: function( /*описание параметров см. ниже*/){
+        
+        //рисуем трек на карте
+        
+    }
   });
-  sportTracker.end();
+  
+  
+
   
 }else{
   alert(sportTracker.canTrack());
 }
 
+
+
+/*
+Пользователь нажал на кнопку СТОП
+
+*/
+
+sportTracker.end();
 ```
 
 ###canTrack - Проверка доступности geolocation.
@@ -55,7 +75,14 @@ if( sportTracker.canTrack() === true){
      - Широта
      - Долгота
     Данная информация будет использоваться для рисования трека на карте.
-4.  
+
+Функция oOptions.onDistanceTrack, также будет вызвана при sportTracker.end();
+
+
+###end() - Останаливаем слежение.
+
+Последний раз вызываются oOptions.onDistance и oOptions.onDistanceTrack
+clearWatch
 
 
 
