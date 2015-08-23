@@ -22,6 +22,14 @@ var sportTracker = {
     return 111.2 * Math.acos(Math.sin($s1)*Math.sin($s2) + Math.cos($s1) * Math.cos($s2) * Math.cos($d2-$d1));
   },
 
+  getTime: function() {
+    return new Date().getTime() - this._timeStart.getTime();
+  },
+
+  getDistance: function() {
+    return this._distanceFull;
+  },
+
   _watch: function(position) {
     var self = sportTracker,
         lat = position.coords.latitude,
@@ -106,6 +114,8 @@ var sportTracker = {
 
   start: function(config) {
     this._config = config;
+
+    this._timeStart = new Date();
 
     this._watchID = navigator.geolocation.watchPosition(
       this._watch,
