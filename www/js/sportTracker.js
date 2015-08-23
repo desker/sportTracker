@@ -2,7 +2,8 @@ var sportTracker = {
 
   _cache: {
     distance: 0,
-    distanceTrack: 0
+    distanceTrack: 0,
+    distanceFull: 0
   },
 
   _config: {},
@@ -24,25 +25,42 @@ var sportTracker = {
 
       self._cache.distance += dist;
       self._cache.distanceTrack += dist;
+      self._cache.distanceFull += dist;
 
       if (self._cache.distanceTrack >= self._config.distanceTrack) {
-        self._config.onDistanceTrack(lat, lon, self._cache.distanceTrack);
+        var endTime = new Date(),
+            time = (endTime.getTime() - self._cache.startTrack.getTime()) / 1000;
+
+        self._config.onDistanceTrack({
+          distanceFull: self._cache.distanceFull, 
+          start: self._cache.startTrack,
+          end: endTime,
+          time: time,
+          distance: self._cache.distanceTrack,
+          speed: self._cache.distanceTrack / (time / 60)
+        });
         self._cache.distanceTrack = 0;
+        self._cache.startTrack = new Date();
       }
       
       if (self._cache.distance >= self._config.distance) {
-        var startDate = self._cache.startDate,
-            endDate = new Date(),
-            diffTime = (endDate.getTime() - startDate.getTime()) / 1000,
-            distance = self._cache.distance,
-            speed = distance / (diffTime / 60);
+        var endTime = new Date(),
+            time = (endTime.getTime() - self._cache.start.getTime()) / 1000;
 
-        self._config.onDistance(startDate, endDate, diffTime, distance, speed);
+        self._config.onDistance({
+          distanceFull: self._cache.distanceFull,
+          start: self._cache.start,
+          end: endTime,
+          time: time,
+          distance: self._cache.distance,
+          speed: self._cache.distance / (time / 60)
+        });
         self._cache.distance = 0;
-        self._cache.startDate = new Date();
+        self._cache.start = new Date();
       }
     } else {
-      self._cache.startDate = new Date();
+      self._cache.start = new Date();
+      self._cache.startTrack = new Date();
     }
 
 
@@ -66,6 +84,10 @@ var sportTracker = {
         timeout: config.watch*1000
       }
     );
+  },
+
+  end: function() {
+    navigator.geolocation.clearWatch(this._watchID);
   },
 
   canTrack: function() {

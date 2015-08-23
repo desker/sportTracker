@@ -20,21 +20,29 @@ var app = {
     // Application Constructor
     initialize: function() {
         this.bindEvents();
+        var timer = new Timer('.timer');
 
         $('#toggleTracker').on('tap', function() {
-            var timer = new Timer('.timer');
-            timer.start();
-            sportTracker.start({
-                watch: 10,
-                distance: 500,
-                onDistance: function(startDate, endDate, time, dist, speed) {
 
-                },
-                distanceTrack: 30,
-                onDistanceTrack: function(lat, lon, dist){
-                    $('.distance').text(dist);
-                }
-            }); 
+            if ($(this).text()==='Start tracker') {
+                $(this).text('Stop tracker');
+                timer.start();
+                sportTracker.start({
+                    watch: 10,
+                    distance: 500,
+                    onDistance: function(options) {
+
+                    },
+                    distanceTrack: 30,
+                    onDistanceTrack: function(options){
+                        $('.distance').text(options.distanceFull);
+                    }
+                }); 
+            } else {
+                $(this).text('Start tracker');
+                timer.stop();
+                sportTracker.end();
+            }
         });
     },
     // Bind Event Listeners
