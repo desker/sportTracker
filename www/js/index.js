@@ -21,27 +21,20 @@ var app = {
     initialize: function() {
         this.bindEvents();
 
-        sportTracker.start({
-            watch: 10, //в секундах
-            distance: 500, //в метрах
-            onDistance: function(startDate, endDate, time, dist, speed) {
+        $('#toggleTracker').on('tap', function() {
+            var timer = new Timer('.timer');
+            timer.start();
+            sportTracker.start({
+                watch: 10,
+                distance: 500,
+                onDistance: function(startDate, endDate, time, dist, speed) {
 
-                var table = document.querySelector('.data'),
-                row = document.createElement('tr');
-
-                row.innerHTML = '<td>'+startDate+'</td><td>'+endDate+'</td><td>'+time+'</td><td>'+dist+'</td><td>'+speed+'</td>';
-
-                table.appendChild(row);
-
-
-            },
-            distanceTrack: 30, //в метрах
-            onDistanceTrack: function( /*описание параметров см. ниже*/){
-
-                //для целей тестирования выводим результат ввиде таблицы
-                //в реальном проекте здесь будет происходить запись в БД и рисование трека на карте
-
-            }
+                },
+                distanceTrack: 30,
+                onDistanceTrack: function(lat, lon, dist){
+                    $('.distance').text(dist);
+                }
+            }); 
         });
     },
     // Bind Event Listeners
@@ -58,6 +51,7 @@ var app = {
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
     },
+
     // Update DOM on a Received Event
     receivedEvent: function(id) {
         var parentElement = document.getElementById(id);

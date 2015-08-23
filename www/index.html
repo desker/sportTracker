@@ -31,24 +31,31 @@
     </head>
     <body>
         <div class="app">
-            <h1>PhoneGap</h1>
             <div id="deviceready" class="blink">
                 <p class="event listening">Connecting to Device</p>
                 <p class="event received">Device is Ready</p>
             </div>
-            <table class="data" align="center">
-                <tr>
-                    <td>Start Time</td>
-                    <td>End Time</td>
-                    <td>Time</td>
-                    <td>Distance</td>
-                    <td>Speed</td>
-                </tr>
-            </table>
+
+            <a href="#" id="toggleTracker" class="toggleTracker">Start tracker</a>
+
+            <div class="tracker">
+                <b>Time:</b>
+                <div class="timer">
+                    
+                </div>
+                <br>
+                <b>Distance:</b>
+                <div class="distance">
+                    
+                </div>
+            </div>
         </div>
 
 
         <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/jquery.min.js"></script>
+        <script type="text/javascript" src="js/jquery.mobile.min.js"></script>
+        <script type="text/javascript" src="js/timer.js"></script>
         <script type="text/javascript" src="js/sportTracker.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript">

@@ -24,6 +24,11 @@ var sportTracker = {
 
       self._cache.distance += dist;
       self._cache.distanceTrack += dist;
+
+      if (self._cache.distanceTrack >= self._config.distanceTrack) {
+        self._config.onDistanceTrack(lat, lon, self._cache.distanceTrack);
+        self._cache.distanceTrack = 0;
+      }
       
       if (self._cache.distance >= self._config.distance) {
         var startDate = self._cache.startDate,
@@ -45,7 +50,9 @@ var sportTracker = {
     self._cache.lon = lon;
   },
 
-  _error: function() {
+  _error: function(error) {
+    alert('code: '    + error.code    + '\n' +
+          'message: ' + error.message + '\n');
 
   },
 
@@ -59,6 +66,17 @@ var sportTracker = {
         timeout: config.watch*1000
       }
     );
+  },
+
+  canTrack: function() {
+    var error = false;
+    navigator.geolocation.getCurrentPosition(function() {
+      error = true;
+    }, function(err) {
+      error = error.message;
+    });
+
+    return error;
   }
 
 }
