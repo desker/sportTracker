@@ -6,6 +6,16 @@ var sportTracker = {
     distanceFull: 0
   },
 
+  _maxAlt: 0,
+
+  _minAlt: 10000,
+
+  _prevAlt: 0,
+
+  _altUp: 0,
+
+  _altDown: 0,
+
   _config: {},
 
   _distance: function($s1,$d1,$s2,$d2) {
@@ -15,8 +25,11 @@ var sportTracker = {
   _watch: function(position) {
     var self = sportTracker,
         lat = position.coords.latitude,
-        lon = position.coords.longitude;
+        lon = position.coords.longitude,
+        alt = position.coords.altitude;
 
+    self._maxAlt = self._maxAlt > alt ? self._maxAlt : alt;
+    self._minAlt = self._minAlt < alt ? self._minAlt : alt;
     
     if (self._cache.lat && self._cache.lon) {
       var lat2 = self._cache.lat,
@@ -27,11 +40,19 @@ var sportTracker = {
       self._cache.distanceTrack += dist;
       self._cache.distanceFull += dist;
 
+      if (alt >= self._prevAlt) {
+        self._altUp += alt - self._prevAlt;
+      } else {
+        self._altDown += self._prevAlt - alt;
+      }
+
       if (self._cache.distanceTrack >= self._config.distanceTrack) {
         var endTime = new Date(),
             time = (endTime.getTime() - self._cache.startTrack.getTime()) / 1000;
 
         self._config.onDistanceTrack({
+          lat: lat,
+          lon: lon,
           distanceFull: self._cache.distanceFull, 
           start: self._cache.startTrack,
           end: endTime,
@@ -53,10 +74,18 @@ var sportTracker = {
           end: endTime,
           time: time,
           distance: self._cache.distance,
-          speed: self._cache.distance / (time / 60)
+          speed: self._cache.distance / (time / 60),
+          upAltitude: self._altUp,
+          downAltitude: self._altDown,
+          maxAltitude: self._maxAlt,
+          minAltitude: self._minAlt
         });
         self._cache.distance = 0;
         self._cache.start = new Date();
+        self._altUp = 0;
+        self._altDown = 0;
+        self._maxAlt = 0;
+        self._minAlt = 10000;
       }
     } else {
       self._cache.start = new Date();
@@ -66,6 +95,7 @@ var sportTracker = {
 
     self._cache.lat = lat;
     self._cache.lon = lon;
+    self._prevAlt = alt;
   },
 
   _error: function(error) {

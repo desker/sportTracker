@@ -31,7 +31,7 @@ var app = {
                     watch: 10,
                     distance: 500,
                     onDistance: function(options) {
-
+                        
                     },
                     distanceTrack: 30,
                     onDistanceTrack: function(options){
